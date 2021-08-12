@@ -5,9 +5,9 @@ import (
 	"testing"
 )
 
-func Test_mergeSort(t *testing.T) {
+func Test_quickSort(t *testing.T) {
 	type args struct {
-		arr []int
+		array []int
 	}
 	tests := []struct {
 		name string
@@ -20,16 +20,16 @@ func Test_mergeSort(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := mergeSort(tt.args.arr); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("mergeSort() = %v, want %v", got, tt.want)
+			if got := quickSort(tt.args.array); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("quickSort() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func Test_mergeSort2(t *testing.T) {
+func Test_quickSort2(t *testing.T) {
 	type args struct {
-		arr []int
+		array []int
 	}
 	tests := []struct {
 		name string
@@ -42,8 +42,8 @@ func Test_mergeSort2(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := mergeSort2(tt.args.arr); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("mergeSort2() = %v, want %v", got, tt.want)
+			if got := quickSort2(tt.args.array); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("quickSort2() = %v, want %v", got, tt.want)
 			}
 		})
 	}

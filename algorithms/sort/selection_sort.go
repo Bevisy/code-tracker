@@ -1,32 +1,15 @@
-package sort
+package sortalgo
 
 //选择排序
-//算法时间复杂度O(n^2)
+// 选择排序时间复杂度：平均 O(n^2); 最佳 O(n^2); 最差 O(n^2)
 func selectionSort(array []int) []int {
 	for i := 0; i < len(array); i++ {
-		min := i
 		for j := i + 1; j < len(array); j++ {
 			if array[i] > array[j] {
-				min = j
+				array[i], array[j] = array[j], array[i]
 			}
 		}
-		tmp := array[min]
-		array[min] = array[i]
-		array[i] = tmp
 	}
 
 	return array
 }
-
-//func findMiniumNum(array []int) int {
-//	ret := array[0]
-//	index := 0
-//	for k, v := range array {
-//		if ret > v {
-//			ret = v
-//			index = k
-//		}
-//	}
-//
-//	return index
-//}

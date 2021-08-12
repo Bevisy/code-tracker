@@ -1,4 +1,4 @@
-package sort
+package sortalgo
 
 //https://zh.wikipedia.org/wiki/%E5%B8%8C%E5%B0%94%E6%8E%92%E5%BA%8F
 //TODO: 希尔排序算法复杂度和步长相关，实现不同步长的希尔排序，参考wikipedia
@@ -7,6 +7,7 @@ package sort
 func shellSort(array []int) []int {
 	for d := len(array) / 2; d > 0; d /= 2 {
 		for i := d; i < len(array); i++ {
+			// 注意：简化条件判断的写法 &&
 			for j := i; j >= d && array[j-d] > array[j]; j -= d {
 				array[j], array[j-d] = array[j-d], array[j]
 			}
@@ -14,3 +15,16 @@ func shellSort(array []int) []int {
 	}
 	return array
 }
+
+// func shellSort(array []int) []int {
+// 	for d := len(array) / 2; d > 0; d /= 2 {
+// 		for i := d; i < len(array); i++ {
+// 			for j := i; j >= d; j -= d {
+// 				if array[j-d] > array[j] {
+// 					array[j], array[j-d] = array[j-d], array[j]
+// 				}
+// 			}
+// 		}
+// 	}
+// 	return array
+// }

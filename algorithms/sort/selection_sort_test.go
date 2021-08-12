@@ -1,25 +1,27 @@
-package sort
+package sortalgo
 
 import (
+	"reflect"
 	"testing"
 )
 
-func TestSelectionSort(t *testing.T) {
-	tests := []struct {
-		input  []int
-		expect []int
-	}{
-		{[]int{3, 2, 1}, []int{1, 2, 3}},
-		{[]int{}, []int{}},
+func Test_selectionSort(t *testing.T) {
+	type args struct {
+		array []int
 	}
-
-	for _, test := range tests {
-		got := selectionSort(test.input)
-		for i := range test.expect {
-			if test.expect[i] != got[i] {
-				t.Errorf("expect %v, but got %v\n", test.expect, got)
-				break
+	tests := []struct {
+		name string
+		args args
+		want []int
+	}{
+		{"unit test 01", args{[]int{3, 2, 1}}, []int{1, 2, 3}},
+		{"unit test 02", args{[]int{}}, []int{}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := selectionSort(tt.args.array); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("selectionSort() = %v, want %v", got, tt.want)
 			}
-		}
+		})
 	}
 }
