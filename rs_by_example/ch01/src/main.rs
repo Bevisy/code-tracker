@@ -184,33 +184,93 @@
 // }
 
 
-// # 测试实例： List
-use std::fmt; // 导入 `fmt` 模块。
+// // # 测试实例： List
+// use std::fmt; // 导入 `fmt` 模块。
 
-// 定义一个包含单个 `Vec` 的结构体 `List`。
-struct List(Vec<i32>);
+// // 定义一个包含单个 `Vec` 的结构体 `List`。
+// struct List(Vec<i32>);
 
-impl fmt::Display for List {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        // 使用元组的下标获取值，并创建一个 `vec` 的引用。
-        let vec = &self.0;
+// impl fmt::Display for List {
+//     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+//         // 使用元组的下标获取值，并创建一个 `vec` 的引用。
+//         let vec = &self.0;
 
-        write!(f, "[")?;
+//         write!(f, "[")?;
 
-        // 使用 `v` 对 `vec` 进行迭代，并用 `count` 记录迭代次数。
-        for (count, v) in vec.iter().enumerate() {
-            // 对每个元素（第一个元素除外）加上逗号。
-            // 使用 `?` 或 `try!` 来返回错误。
-            if count != 0 { write!(f, ", ")?; }
-            write!(f, "{}", v)?;
-        }
+//         // 使用 `v` 对 `vec` 进行迭代，并用 `count` 记录迭代次数。
+//         for (count, v) in vec.iter().enumerate() {
+//             // 对每个元素（第一个元素除外）加上逗号。
+//             // 使用 `?` 或 `try!` 来返回错误。
+//             if count != 0 { write!(f, ", ")?; }
+//             write!(f, "{}: {}", count, v)?;
+//         }
 
-        // 加上配对中括号，并返回一个 fmt::Result 值。
-        write!(f, "]")
+//         // 加上配对中括号，并返回一个 fmt::Result 值。
+//         write!(f, "]")
+//     }
+// }
+
+// fn main() {
+//     let v = List(vec![1, 2, 3]);
+//     println!("{}", v);
+// }
+
+
+// # 格式化
+use std::fmt::{self, Formatter, Display};
+
+struct City {
+    name: &'static str,
+    // 纬度
+    lat: f32,
+    // 经度
+    lon: f32,
+}
+
+impl Display for City {
+    // `f` 是一个缓冲区（buffer），此方法必须将格式化后的字符串写入其中
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        let lat_c = if self.lat >= 0.0 { 'N' } else { 'S' };
+        let lon_c = if self.lon >= 0.0 { 'E' } else { 'W' };
+
+        // `write!` 和 `format!` 类似，但它会将格式化后的字符串写入
+        // 一个缓冲区（即第一个参数f）中。
+        write!(f, "{}: {:.3}°{} {:.3}°{}",
+               self.name, self.lat.abs(), lat_c, self.lon.abs(), lon_c)
+    }
+}
+
+#[derive(Debug)]
+struct Color {
+    red: u8,
+    green: u8,
+    blue: u8,
+}
+
+impl Display for Color {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        // 格式化输出 :>02 代表 位数为2，左边补零填充
+        write!(f, "RGB ({0}, {1}, {2}) 0x{0:>02x}{1:>02x}{2:>02x}", 
+        self.red, self.green, self.blue)
     }
 }
 
 fn main() {
-    let v = List(vec![1, 2, 3]);
-    println!("{}", v);
+    for city in [
+        City { name: "Dublin", lat: 53.347778, lon: -6.259722 },
+        City { name: "Oslo", lat: 59.95, lon: 10.75 },
+        City { name: "Vancouver", lat: 49.25, lon: -123.1 },
+    ].iter() {
+        println!("{}", *city);
+    }
+    for color in [
+        Color { red: 128, green: 255, blue: 90 },
+        Color { red: 0, green: 3, blue: 254 },
+        Color { red: 0, green: 0, blue: 0 },
+    ].iter() {
+        // 在添加了针对 fmt::Display 的实现后，请改用 {} 检验效果。
+        println!("{:?}", *color);
+        // 格式化输出
+        println!("{}", *color);
+    }
 }
