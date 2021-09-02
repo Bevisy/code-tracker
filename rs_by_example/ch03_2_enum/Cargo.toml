@@ -1,5 +1,5 @@
 [package]
-name = "ch02"
+name = "ch03_2_enum"
 version = "0.1.0"
 edition = "2018"
 
